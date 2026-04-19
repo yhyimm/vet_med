@@ -1,0 +1,1060 @@
+
+<style>
+:root {
+  --cp: #2A7D4F; --cpm: #48BB78; --cpl: #E8F5EE; --cpd: #1A5C38;
+  --bg: #FFFFFF; --bgs: #F7F8FA; --bgsc: #F0FAF5;
+  --ct: #1A202C; --ctm: #4A5568; --ctl: #718096;
+  --cb: #E2E8F0;
+  --sh: 0 1px 3px rgba(0,0,0,0.08);
+  --shm: 0 4px 12px rgba(0,0,0,0.10);
+  --shl: 0 8px 24px rgba(0,0,0,0.12);
+  --shh: 0 12px 32px rgba(0,0,0,0.15);
+  --r: 6px; --rm: 10px; --rl: 14px; --rxl: 20px; --rp: 999px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--ct);background:var(--bg);font-size:14px;}
+.page{display:none;animation:fadeIn .22s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* NAV */
+.nav{background:var(--bg);box-shadow:var(--sh);height:58px;display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:100;gap:0;}
+.nav-logo{font-size:17px;font-weight:700;color:var(--cp);display:flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0;}
+.nl-dot{width:8px;height:8px;background:var(--cpm);border-radius:50%;}
+.nav-links{display:flex;gap:24px;margin:0 auto;list-style:none;}
+.nav-links a{font-size:13px;font-weight:500;color:var(--ctm);text-decoration:none;cursor:pointer;padding:4px 0;border-bottom:2px solid transparent;transition:all .18s;}
+.nav-links a:hover,.nav-links a.active{color:var(--cp);border-bottom-color:var(--cp);}
+.nav-item { position: relative; }
+.nav-dropdown { position: absolute; top:100%; left:0; background:#fff; box-shadow: var(--shl); padding:20px; display: none; z-index:100; min-width:300px; }
+.nav-item:hover .nav-dropdown { display: block; }
+.dropdown-col { margin-bottom:10px; }
+.dropdown-title { font-weight:600; color:var(--cp); margin-bottom:5px; font-size:12px; }
+.nav-dropdown a { display:block; padding:3px 0; color:var(--ctm); text-decoration:none; font-size:11px; }
+.nav-dropdown a:hover { color:var(--cp); }
+.nav-actions{display:flex;gap:8px;align-items:center;}
+.niBtn{width:32px;height:32px;border:1px solid var(--cb);border-radius:var(--rm);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ctm);transition:all .18s;position:relative;}
+.niBtn:hover{border-color:var(--cp);color:var(--cp);background:var(--cpl);}
+.fbadge{position:absolute;top:-4px;right:-4px;background:var(--cp);color:#fff;font-size:9px;font-weight:700;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+/* SEARCH OVERLAY */
+.sov{display:none;position:fixed;top:58px;left:0;right:0;background:rgba(0,0,0,0.28);z-index:99;padding:20px 24px;}
+.sov.open{display:block;animation:fadeIn .22s ease;}
+.sov-inner{max-width:520px;margin:0 auto;background:#fff;border-radius:var(--rl);padding:18px 20px;box-shadow:var(--shl);}
+.sov-input{width:100%;height:44px;border:2px solid var(--cb);border-radius:var(--rm);padding:0 40px 0 12px;font-size:13px;outline:none;background:var(--bgs);transition:border-color .18s;}
+.sov-input:focus{border-color:var(--cp);background:#fff;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px;align-items:center;}
+.chip-lbl{font-size:11px;color:var(--ctl);}
+.chip{height:26px;padding:0 10px;border:1px solid var(--cb);border-radius:var(--rp);font-size:11px;color:var(--ctm);background:none;cursor:pointer;transition:all .15s;}
+.chip:hover{border-color:var(--cp);color:var(--cp);background:var(--cpl);}
+
+/* COMMON */
+.sec{padding:40px 24px;}
+.sec-alt{background:var(--bgs);}
+.sec-grn{background:var(--bgsc);}
+.sec-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--cp);margin-bottom:5px;}
+.sec-ttl{font-size:24px;font-weight:700;color:var(--ct);margin-bottom:22px;line-height:1.25;}
+.sec-ttl .lt{font-weight:300;color:var(--ctm);}
+.sec-ttl .sp{margin:0 8px;color:var(--cb);}
+.sw-ctrl{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.arr-wrap{display:flex;gap:6px;}
+.arrBtn{width:32px;height:32px;border:1px solid var(--cb);border-radius:var(--rm);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ctm);transition:all .18s;}
+.arrBtn:hover{border-color:var(--cp);color:var(--cp);background:var(--cpl);}
+.dots{display:flex;gap:5px;justify-content:center;margin-top:14px;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--cb);cursor:pointer;transition:all .18s;}
+.dot.on{background:var(--cp);width:18px;border-radius:var(--rp);}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.btn-p{background:var(--cp);color:#fff;border:none;height:40px;padding:0 22px;border-radius:var(--rm);font-size:13px;font-weight:600;cursor:pointer;transition:background .18s;display:inline-flex;align-items:center;gap:6px;}
+.btn-p:hover{background:var(--cpd);}
+.btn-o{background:none;color:var(--cp);border:1.5px solid var(--cp);height:38px;padding:0 20px;border-radius:var(--rm);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:6px;}
+.btn-o:hover{background:var(--cpl);}
+.pill{display:inline-block;background:var(--cpl);color:var(--cp);font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--rp);}
+
+.sub-cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.sub-cat{background:var(--cpl);color:var(--cp);font-size:10px;font-weight:600;padding:4px 8px;border-radius:var(--rp);cursor:pointer;transition:all .18s;}
+.sub-cat:hover{background:var(--cp);color:#fff;}
+.sub-cat.active{background:var(--cp);color:#fff;}
+
+.slider-container { overflow: hidden; width: 100%; }
+.featured-grid { display: grid; grid-template-columns: repeat(20, 1fr); gap: 12px; width: 500%; transition: transform 0.3s ease; grid-auto-flow: column; grid-auto-rows: 1fr; }
+.liquid-grid { grid-template-columns: repeat(20, 1fr); width: 500%; }
+.powder-grid { grid-template-columns: repeat(16, 1fr); width: 400%; }
+
+/* HERO */
+.hero{background:linear-gradient(120deg,var(--bgsc) 0%,#fff 65%);min-height:380px;display:flex;align-items:center;padding:0 36px;position:relative;overflow:hidden;}
+.hero-content{max-width:380px;z-index:2;}
+.hero-tag{display:inline-block;background:var(--cpl);color:var(--cp);font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 10px;border-radius:var(--rp);margin-bottom:13px;}
+.hero-ttl{font-size:34px;font-weight:700;line-height:1.15;margin-bottom:11px;}
+.hero-ttl span{color:var(--cp);}
+.hero-sub{font-size:13px;color:var(--ctm);line-height:1.65;margin-bottom:22px;max-width:320px;}
+.hero-img{position:absolute;right:30px;top:50%;transform:translateY(-50%);width:200px;height:200px;border-radius:var(--rxl);background:linear-gradient(145deg,var(--cpl),#c5e8d4);display:flex;align-items:center;justify-content:center;font-size:68px;animation:flt 3s ease-in-out infinite;}
+@keyframes flt{0%,100%{transform:translateY(-50%)}50%{transform:translateY(calc(-50% - 10px))}}
+.hero-hdots{display:flex;gap:6px;margin-top:22px;}
+.hero-hdot{width:8px;height:8px;border-radius:50%;background:var(--cb);cursor:pointer;transition:all .18s;}
+.hero-hdot.on{background:var(--cp);width:20px;border-radius:var(--rp);}
+
+/* CAT CARD */
+.cat-card{cursor:pointer;transition:all .2s;}
+.cat-card:hover .cat-ib{border-color:var(--cp);box-shadow:var(--shm);transform:translateY(-2px);}
+.cat-ib{border:2px solid var(--cb);border-radius:var(--rm);height:120px;display:flex;align-items:center;justify-content:center;background:#fff;font-size:40px;transition:all .2s;margin-bottom:9px;}
+.cat-nm{font-size:13px;font-weight:600;text-align:center;color:var(--ct);}
+
+/* PRODUCT CARD */
+/* PRODUCT CARD */
+.pc{
+  border:1px solid var(--cb);
+  border-radius:var(--rl);
+  background:#fff;
+  overflow:hidden;
+  cursor:pointer;
+  transition:all .2s;
+  position:relative;
+}
+.pc:hover{box-shadow:var(--shh);transform:translateY(-2px);}
+.pc:hover .pc-rm{transform:translateY(0);}
+.pc:hover .pc-fav{opacity:1;}
+
+.pc-top{
+  padding:10px 10px 0;
+  font-size:10px;
+  color:var(--ctl);
+}
+
+.pc-img{
+  height:180px;
+  margin:7px 10px;
+  border-radius:var(--rm);
+  background:var(--bgs);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.pc-img img{
+  width:100%;
+  height:100%;
+  object-fit:contain;   /* يخلي أي صورة تدخل بدون تشويه */
+  object-position:center;
+  display:block;
+  padding:10px;         /* مسافة داخلية للصورة */
+}
+
+.pc-nm{
+  font-size:12px;
+  font-weight:600;
+  text-align:center;
+  padding:7px 12px 40px;
+  line-height:1.35;
+}
+
+.pc-rm{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:34px;
+  background:var(--cp);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.04em;
+  transform:translateY(100%);
+  transition:transform .25s ease;
+}
+
+.pc-fav{
+  position:absolute;
+  top:7px;
+  right:7px;
+  width:28px;
+  height:28px;
+  background:rgba(255,255,255,.92);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  opacity:0;
+  transition:opacity .2s;
+  cursor:pointer;
+  border:1px solid var(--cb);
+}
+
+/* PRODUCT DETAIL IMAGE */
+.pd-img-area{
+  border:1px solid var(--cb);
+  border-radius:var(--rl);
+  background:var(--bgs);
+  min-height:320px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.pd-img-area img{
+  width:100%;
+  height:100%;
+  max-height:280px;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+}
+
+/* FAVORITES THUMBNAIL */
+.fv-th{
+  width:54px;
+  height:54px;
+  border-radius:var(--rm);
+  background:var(--bgs);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  overflow:hidden;
+}
+
+.fv-th img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  padding:4px;
+}
+
+/* لو عندك صور بأبعاد مختلفة جداً */
+.pc-img.is-cover img{
+  object-fit:cover;
+  padding:0;
+}
+
+/* SERVICE CARD */
+.svc{border:1px solid var(--cb);border-radius:var(--rl);background:#fff;padding:22px 18px;text-align:center;transition:box-shadow .2s;}
+.svc:hover{box-shadow:var(--shm);}
+.svc-ic{width:50px;height:50px;background:var(--cpl);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 12px;}
+.svc-nm{font-size:14px;font-weight:600;margin-bottom:6px;}
+.svc-desc{font-size:11px;color:var(--ctl);line-height:1.55;}
+
+/* PARTNER CARD */
+.ptc {border: 1px solid var(--cb);border-radius: var(--rl);background: #fff;padding: 20px 16px;text-align: center;transition: all .2s;}
+.ptc:hover {box-shadow: var(--shm);transform: translateY(-2px);}
+.ptc-img {height: 60px;object-fit: contain;margin-bottom: 12px;}
+.ptc-desc {font-size: 11px;color: var(--ctl);line-height: 1.5;}
+
+/* FOOTER */
+.ftr{background:#1A202C;color:rgba(255,255,255,.75);padding:40px 24px 20px;display:grid;grid-template-columns:35% 65%;gap:40px;}
+.ftr-logo{font-size:18px;font-weight:700;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.ftr-desc{font-size:11px;line-height:1.65;max-width:220px;color:rgba(255,255,255,.6);}
+.ftr-lbl{font-size:11px;margin-bottom:12px;color:rgba(255,255,255,.6);}
+.ftr-row{display:flex;align-items:center;gap:8px;font-size:11px;margin-bottom:8px;color:rgba(255,255,255,.8);}
+.ftr-soc{display:flex;gap:8px;margin-top:14px;}
+.soc-b{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:all .18s;color:rgba(255,255,255,.7);}
+.soc-b:hover{background:var(--cp);border-color:var(--cp);color:#fff;}
+.ftr-bar{background:#1A202C;border-top:1px solid rgba(255,255,255,.1);text-align:center;padding:12px 24px;font-size:10px;color:rgba(255,255,255,.4);}
+
+/* FAVORITES DRAWER */
+.dback{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:200;}
+.dback.open{display:block;}
+.drw{position:fixed;top:0;right:0;bottom:0;width:340px;background:#fff;z-index:201;transform:translateX(100%);transition:transform .28s ease;display:flex;flex-direction:column;box-shadow:var(--shl);}
+.drw.open{transform:translateX(0);}
+.drw-hd{padding:16px 18px;border-bottom:1px solid var(--cb);display:flex;justify-content:space-between;align-items:center;}
+.drw-ttl{font-size:15px;font-weight:600;}
+.drw-close{background:none;border:none;font-size:17px;cursor:pointer;color:var(--ctl);}
+.drw-body{flex:1;overflow-y:auto;padding:14px;}
+.fv-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--cb);}
+.fv-th{width:54px;height:54px;border-radius:var(--rm);background:var(--bgs);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.fv-inf{flex:1;}
+.fv-pn{font-size:12px;font-weight:600;margin-bottom:2px;}
+.fv-cat{font-size:10px;color:var(--ctl);}
+.qty{display:flex;align-items:center;gap:5px;}
+.qb{width:24px;height:24px;border:1px solid var(--cb);border-radius:var(--r);background:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.qb:hover{border-color:var(--cp);color:var(--cp);}
+.qn{font-size:12px;font-weight:600;min-width:16px;text-align:center;}
+.frm-btn{background:none;border:none;cursor:pointer;font-size:13px;color:var(--ctl);}
+.drw-ft{padding:14px;border-top:1px solid var(--cb);display:flex;flex-direction:column;gap:8px;}
+.drw-sum{display:flex;justify-content:space-between;font-size:11px;color:var(--ctl);padding:0 2px 2px;}
+.drw-sum span:last-child{color:var(--cp);font-weight:600;}
+
+/* BREADCRUMB */
+.bc{font-size:11px;color:var(--ctl);margin-bottom:14px;}
+.bc a{color:var(--ctl);cursor:pointer;text-decoration:none;}
+.bc a:hover{color:var(--cp);}
+.bc .sep{margin:0 5px;}
+
+/* PRODUCT DETAIL */
+.pd-layout{display:grid;grid-template-columns:40% 60%;gap:20px;margin-bottom:32px;}
+.pd-img-area{border:1px solid var(--cb);border-radius:var(--rl);background:var(--bgs);display:flex;align-items:center;justify-content:center;font-size:90px;min-height:280px;}
+.pd-card{border:1px solid var(--cb);border-radius:var(--rl);padding:24px;}
+.pd-name{font-size:22px;font-weight:700;margin:10px 0;}
+.pd-comp{font-size:13px;color:var(--ctm);line-height:1.6;margin-bottom:14px;}
+.pd-divider{border:none;border-top:1px solid var(--cb);margin:14px 0;}
+.pd-tbl{width:100%;font-size:12px;border-collapse:collapse;}
+.pd-tbl tr:nth-child(even) td{background:var(--bgs);}
+.pd-tbl td{padding:7px 10px;}
+.pd-tbl td:first-child{color:var(--ctl);font-weight:500;width:40%;}
+.trust{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.trust-b{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--cp);font-weight:600;background:var(--cpl);padding:5px 10px;border-radius:var(--rp);}
+
+/* ANIMAL CARD */
+.ac-block{display:flex;align-items:center;gap:28px;padding:24px;border:1px solid var(--cb);border-radius:var(--rl);background:#fff;margin-bottom:14px;}
+.ac-block:nth-child(even){flex-direction:row-reverse;}
+.ac-img{width:120px;height:120px;border-radius:var(--rxl);background:var(--bgs);display:flex;align-items:center;justify-content:center;font-size:52px;flex-shrink:0;}
+.ac-nm{font-size:17px;font-weight:700;margin-bottom:10px;}
+.ac-blist{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.ac-blist li{font-size:12px;color:var(--ctm);display:flex;align-items:flex-start;gap:6px;}
+.ac-blist li::before{content:'✓';color:var(--cp);font-weight:700;flex-shrink:0;}
+
+/* BENEFIT CARD */
+.bfc{border:1px solid var(--cb);border-radius:var(--rl);background:#fff;padding:20px 18px;}
+.bfc-ic{width:44px;height:44px;background:var(--cpl);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:11px;}
+.bfc-ttl{font-size:14px;font-weight:600;margin-bottom:5px;}
+.bfc-desc{font-size:11px;color:var(--ctl);line-height:1.5;}
+
+/* ABOUT */
+.about-layout{display:grid;grid-template-columns:55% 45%;gap:28px;align-items:center;}
+.about-ttl{font-size:28px;font-weight:700;margin-bottom:14px;}
+.about-body{font-size:13px;color:var(--ctm);line-height:1.7;margin-bottom:12px;}
+.about-logo-area{display:flex;align-items:center;justify-content:center;border:1px solid var(--cb);border-radius:var(--rxl);background:var(--bgs);height:220px;font-size:22px;font-weight:700;color:var(--cp);}
+.stat-card{border:1px solid var(--cb);border-radius:var(--rl);background:#fff;padding:28px 20px;text-align:center;}
+.stat-num{font-size:42px;font-weight:700;color:var(--cp);line-height:1;}
+.stat-lbl{font-size:11px;color:var(--ctl);text-transform:uppercase;letter-spacing:.08em;margin-top:6px;}
+
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.info-item{display:flex;align-items:flex-start;gap:11px;margin-bottom:16px;}
+.info-ic{width:38px;height:38px;background:var(--cpl);border-radius:var(--rm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.info-lbl{font-size:11px;color:var(--ctl);font-weight:500;margin-bottom:2px;}
+.info-val{font-size:13px;color:var(--ct);font-weight:500;}
+.map-ph{height:200px;border-radius:var(--rl);background:linear-gradient(135deg,#e8f5ee,#c5e8d4);display:flex;align-items:center;justify-content:center;margin-top:18px;color:var(--cp);font-size:13px;font-weight:600;border:1px solid var(--cb);}
+.frm-field{margin-bottom:14px;}
+.frm-field label{display:block;font-size:11px;font-weight:500;color:var(--ctm);margin-bottom:5px;}
+.frm-field input,.frm-field textarea,.frm-field select{width:100%;height:42px;border:1.5px solid var(--cb);border-radius:var(--rm);padding:0 12px;font-size:13px;color:var(--ct);outline:none;transition:border-color .18s;background:#fff;}
+.frm-field input:focus,.frm-field textarea:focus,.frm-field select:focus{border-color:var(--cp);}
+.frm-field textarea{height:100px;padding:10px 12px;resize:vertical;}
+.frm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.frm-product-pill{display:flex;align-items:center;justify-content:space-between;background:var(--cpl);border-radius:var(--rm);padding:8px 12px;margin-bottom:8px;}
+.frm-product-pill span{font-size:12px;font-weight:600;color:var(--cp);}
+.frm-success{background:#E8F5EE;border:1px solid var(--cpm);border-radius:var(--rm);padding:14px 16px;font-size:13px;color:var(--cpd);font-weight:600;display:none;align-items:center;gap:8px;margin-bottom:14px;}
+.frm-success.show{display:flex;}
+
+/* PRODUCTS PAGE */
+.cat-filter{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.cf-btn{height:34px;padding:0 16px;border:1.5px solid var(--cb);border-radius:var(--rp);font-size:12px;font-weight:500;background:none;cursor:pointer;transition:all .18s;color:var(--ctm);}
+.cf-btn.on{background:var(--cp);border-color:var(--cp);color:#fff;}
+.cf-btn:hover:not(.on){border-color:var(--cp);color:var(--cp);}
+
+/* WHY CHOOSE SECTION */
+.wc-header{text-align:center;margin-bottom:24px;}
+</style>
+
+<div>
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">Veterinary platform — all pages interactive mockup</h2>
+
+<!-- NAVBAR (shared) -->
+<nav class="nav" id="mainNav">
+  <div class="nav-logo" onclick="goTo('home')"><div class="nl-dot"></div>VetGroup</div>
+  <ul class="nav-links">
+    <li><a onclick="goTo('home')" id="nl-home" class="active">Home</a></li>
+    <li class="nav-item"><a onclick="goTo('products')" id="nl-products">Products</a>
+      <div class="nav-dropdown">
+        <div class="dropdown-col">
+          <div class="dropdown-title">Liquid Solutions</div>
+          <a onclick="goTo('home'); setTimeout(() => showAllFeatured('liquid'), 50)">All Liquids</a>
+          <a onclick="filterFeaturedBySub('liquid', 'Vitamin & Mineral Liquids')">Vitamin & Mineral Liquids</a>
+          <a onclick="filterFeaturedBySub('liquid', 'Liver & Detox Liquids')">Liver & Detox Liquids</a>
+          <a onclick="filterFeaturedBySub('liquid', 'Electrolyte Solutions')">Electrolyte Solutions</a>
+          <a onclick="filterFeaturedBySub('liquid', 'Immune Support Liquids')">Immune Support Liquids</a>
+        </div>
+        <div class="dropdown-col">
+          <div class="dropdown-title">Powder Formulas</div>
+          <a onclick="goTo('home'); setTimeout(() => showAllFeatured('powder'), 50)">All Powders</a>
+          <a onclick="filterFeaturedBySub('powder', 'Growth & Performance Powders')">Growth & Performance Powders</a>
+          <a onclick="filterFeaturedBySub('powder', 'Mineral & Calcium Powders')">Mineral & Calcium Powders</a>
+          <a onclick="filterFeaturedBySub('powder', 'Probiotic Powders')">Probiotic Powders</a>
+          <a onclick="filterFeaturedBySub('powder', 'Herbal & Digestive Powders')">Herbal & Digestive Powders</a>
+        </div>
+      </div>
+    </li>
+    <li><a onclick="goTo('about')" id="nl-about">About Us</a></li>
+    <li><a onclick="goTo('contact')" id="nl-contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="niBtn" id="searchBtn">🔍</button>
+    <button class="niBtn" id="favBtn">🤍<span class="fbadge" id="favCount">2</span></button>
+  </div>
+</nav>
+
+<!-- SEARCH OVERLAY -->
+<div class="sov" id="sov">
+  <div class="sov-inner">
+    <input class="sov-input" type="text" placeholder="Search products, categories..." id="sovInput"/>
+    <div class="chips">
+      <span class="chip-lbl">Popular:</span>
+      <button class="chip" onclick="fillSearch('Vitamins & Minerals')">Vitamins & Minerals</button>
+      <button class="chip" onclick="fillSearch('Liver Care')">Liver Care</button>
+      <button class="chip" onclick="fillSearch('Vaccine Stabilizers')">Vaccine Stabilizers</button>
+      <button class="chip" onclick="fillSearch('Probiotics')">Probiotics</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ HOME ══════════════════ -->
+<div class="page active" id="page-home">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-content">
+      <span class="hero-tag">New Formula 2025</span>
+      <h1 class="hero-ttl">Premium <span>Veterinary</span><br>Medicines</h1>
+      <p class="hero-sub">Trusted by vets across 30+ countries. Lab-tested formulas for livestock, poultry and companion animals.</p>
+      <button class="btn-p" onclick="goTo('products')">Explore Products →</button>
+      <div class="hero-hdots"><div class="hero-hdot on"></div><div class="hero-hdot"></div><div class="hero-hdot"></div></div>
+    </div>
+    <div class="hero-img">🧪</div>
+  </div>
+
+  <!-- Browse by Category -->
+  <div class="sec">
+    <div class="sec-lbl">Browse by Category</div>
+    <div class="sw-ctrl">
+      <div class="sec-ttl" style="margin-bottom:0">Our Product Lines</div>
+      <div class="arr-wrap"><button class="arrBtn">‹</button><button class="arrBtn">›</button></div>
+    </div>
+    <div class="grid4">
+      <div class="cat-card" onclick="filterProducts('compound-mix')"><div class="cat-ib"><svg viewBox="0 0 64 64" width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="rotate(-35 32 32)">
+    <rect x="14" y="24" width="36" height="16" rx="8"
+          stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="32" y1="24" x2="32" y2="40"
+          stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+</svg></div><div class="cat-nm">Compound Mix</div></div>
+      <div class="cat-card" onclick="filterProducts('liquid')"><div class="cat-ib"><svg viewBox="0 0 64 64" width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- cap -->
+  <rect x="26" y="10" width="12" height="8" rx="2"
+        stroke="black" stroke-width="2.5"/>
+
+  <!-- body -->
+  <rect x="20" y="18" width="24" height="32" rx="10"
+        stroke="black" stroke-width="2.5"/>
+
+  <!-- liquid line -->
+  <path d="M22 36C26 34 38 34 42 36"
+        stroke="black" stroke-width="2" stroke-linecap="round"/>
+</svg>
+</div><div class="cat-nm">Liquid Solutions</div></div>
+      <div class="cat-card" onclick="filterProducts('powder')"><div class="cat-ib"><svg viewBox="0 0 64 64" width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- beaker -->
+  <path d="M22 12H42L38 50C38 52 36 54 32 54C28 54 26 52 26 50L22 12Z"
+        stroke="black" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- powder line -->
+  <path d="M26 40C30 38 34 38 38 40"
+        stroke="black" stroke-width="2" stroke-linecap="round"/>
+</svg>
+</div><div class="cat-nm">Powder Formulas</div></div>
+
+      <div class="cat-card" onclick="filterProducts('compound-mix')"><div class="cat-ib"><svg viewBox="0 0 64 64" width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="rotate(45 32 32)">
+    
+    <!-- barrel -->
+    <rect x="20" y="28" width="20" height="8" rx="3"
+          stroke="black" stroke-width="2.5"/>
+
+    <!-- plunger -->
+    <line x1="16" y1="32" x2="20" y2="32"
+          stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- tip -->
+    <line x1="40" y1="32" x2="50" y2="32"
+          stroke="black" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- needle -->
+    <line x1="50" y1="32" x2="58" y2="32"
+          stroke="black" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- measurement lines -->
+    <line x1="26" y1="30" x2="26" y2="34" stroke="black" stroke-width="1.5"/>
+    <line x1="30" y1="30" x2="30" y2="34" stroke="black" stroke-width="1.5"/>
+  </g>
+</svg></div><div class="cat-nm">Injectables</div></div>
+    </div>
+  </div>
+
+  <!-- Featured Liquid -->
+  <div class="sec sec-alt">
+    <div class="sw-ctrl">
+      <div class="sec-ttl" style="margin-bottom:0"><span class="lt">Featured</span><span class="sp">|</span>Liquid Products</div>
+      <div class="arr-wrap"><button class="arrBtn" onclick="slideFeatured('liquid', -1)">‹</button><button class="arrBtn" onclick="slideFeatured('liquid', 1)">›</button></div>
+    </div>
+    <div class="sec-lbl" onclick="showAllFeatured('liquid')" style="cursor:pointer;">Liquid Solutions</div>
+    <div class="sub-cats">
+      <span class="sub-cat active" onclick="showAllFeatured('liquid')">All Products</span>
+      <span class="sub-cat" onclick="filterFeaturedSubCat(this, 'liquid')">Vitamin & Mineral Liquids</span>
+      <span class="sub-cat" onclick="filterFeaturedSubCat(this, 'liquid')">Liver & Detox Liquids</span>
+      <span class="sub-cat" onclick="filterFeaturedSubCat(this, 'liquid')">Electrolyte Solutions</span>
+      <span class="sub-cat" onclick="filterFeaturedSubCat(this, 'liquid')">Immune Support Liquids</span>
+    </div>
+    <div class="slider-container">
+      <div class="featured-grid liquid-grid" id="liquid-grid">
+        <div class="pc" data-subcat="Vitamin &amp; Mineral Liquids" onclick="goToProduct('vita-liquid')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">VitaLiquid Forte Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Liver &amp; Detox Liquids" onclick="goToProduct('hepato-care')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Hepato Care Solution</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Electrolyte Solutions" onclick="goToProduct('electro-balance')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Electro Balance Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Immune Support Liquids" onclick="goToProduct('immuno-boost')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Immuno Boost Oral</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Vitamin &amp; Mineral Liquids" onclick="goToProduct('vita-liquid')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">VitaLiquid Forte Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Liver &amp; Detox Liquids" onclick="goToProduct('hepato-care')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Hepato Care Solution</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Electrolyte Solutions" onclick="goToProduct('electro-balance')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Electro Balance Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Immune Support Liquids" onclick="goToProduct('immuno-boost')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Immuno Boost Oral</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Vitamin &amp; Mineral Liquids" onclick="goToProduct('vita-liquid')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">VitaLiquid Forte Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Liver &amp; Detox Liquids" onclick="goToProduct('hepato-care')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Hepato Care Solution</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Electrolyte Solutions" onclick="goToProduct('electro-balance')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Electro Balance Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Immune Support Liquids" onclick="goToProduct('immuno-boost')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Immuno Boost Oral</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Vitamin &amp; Mineral Liquids" onclick="goToProduct('vita-liquid')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">VitaLiquid Forte Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Liver &amp; Detox Liquids" onclick="goToProduct('hepato-care')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Hepato Care Solution</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Electrolyte Solutions" onclick="goToProduct('electro-balance')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Electro Balance Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Immune Support Liquids" onclick="goToProduct('immuno-boost')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Immuno Boost Oral</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Vitamin &amp; Mineral Liquids" onclick="goToProduct('vita-liquid')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">VitaLiquid Forte Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Liver &amp; Detox Liquids" onclick="goToProduct('hepato-care')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Hepato Care Solution</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Electrolyte Solutions" onclick="goToProduct('electro-balance')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Electro Balance Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Immune Support Liquids" onclick="goToProduct('immuno-boost')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Immuno Boost Oral</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Vitamin &amp; Mineral Liquids" onclick="goToProduct('vita-liquid')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">VitaLiquid Forte Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Liver &amp; Detox Liquids" onclick="goToProduct('hepato-care')"><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Hepato Care Solution</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      </div>
+    </div>
+    <div class="dots" id="liquid-dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- Featured Powder -->
+  <div class="sec sec-grn">
+    <div class="sw-ctrl">
+      <div class="sec-ttl" style="margin-bottom:0"><span class="lt">Featured</span><span class="sp">|</span>Powder Formulas</div>
+      <div class="arr-wrap"><button class="arrBtn" onclick="slideFeatured('powder', -1)">‹</button><button class="arrBtn" onclick="slideFeatured('powder', 1)">›</button></div>
+    </div>
+    <div class="sec-lbl" onclick="showAllFeatured('powder')" style="cursor:pointer;">Powder Formulas</div>
+    <div class="sub-cats">
+      <span class="sub-cat active" onclick="showAllFeatured('powder')">All Products</span>
+      <span class="sub-cat" onclick="filterFeaturedSubCat(this, 'powder')">Growth & Performance Powders</span>
+      <span class="sub-cat" onclick="filterFeaturedSubCat(this, 'powder')">Mineral & Calcium Powders</span>
+      <span class="sub-cat" onclick="filterFeaturedSubCat(this, 'powder')">Probiotic Powders</span>
+      <span class="sub-cat" onclick="filterFeaturedSubCat(this, 'powder')">Herbal & Digestive Powders</span>
+    </div>
+    <div class="slider-container">
+      <div class="featured-grid powder-grid" id="powder-grid">
+        <div class="pc" data-subcat="Growth &amp; Performance Powders" onclick="goToProduct('growmax')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">GrowMax Powder Pro</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Mineral &amp; Calcium Powders" onclick="goToProduct('calciphos')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">CalciPhos Mineral Blend</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Probiotic Powders" onclick="goToProduct('probio')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">ProBio Active Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Herbal &amp; Digestive Powders" onclick="goToProduct('herbal')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">Herbal Digest Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Growth &amp; Performance Powders" onclick="goToProduct('growmax')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">GrowMax Powder Pro</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Mineral &amp; Calcium Powders" onclick="goToProduct('calciphos')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">CalciPhos Mineral Blend</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Probiotic Powders" onclick="goToProduct('probio')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">ProBio Active Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Herbal &amp; Digestive Powders" onclick="goToProduct('herbal')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">Herbal Digest Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Growth &amp; Performance Powders" onclick="goToProduct('growmax')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">GrowMax Powder Pro</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Mineral &amp; Calcium Powders" onclick="goToProduct('calciphos')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">CalciPhos Mineral Blend</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Probiotic Powders" onclick="goToProduct('probio')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">ProBio Active Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Herbal &amp; Digestive Powders" onclick="goToProduct('herbal')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">Herbal Digest Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Growth &amp; Performance Powders" onclick="goToProduct('growmax')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">GrowMax Powder Pro</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Mineral &amp; Calcium Powders" onclick="goToProduct('calciphos')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">CalciPhos Mineral Blend</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Probiotic Powders" onclick="goToProduct('probio')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">ProBio Active Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" data-subcat="Herbal &amp; Digestive Powders" onclick="goToProduct('herbal')"><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">Herbal Digest Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      </div>
+    </div>
+    <div class="dots" id="powder-dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- Why Choose Us -->
+  <div class="sec">
+    <div class="wc-header"><div class="sec-lbl" style="text-align:center">Our Promise</div><div class="sec-ttl" style="text-align:center;margin-bottom:0">Why Choose Us</div></div>
+    <div class="grid3">
+      <div class="svc"><div class="svc-ic">🔬</div><div class="svc-nm">Lab Certified</div><div class="svc-desc">Every batch tested to international standards before leaving our facility.</div></div>
+      <div class="svc"><div class="svc-ic">🌍</div><div class="svc-nm">Global Reach</div><div class="svc-desc">Exported to 30+ countries. Trusted by vets and farmers worldwide.</div></div>
+      <div class="svc"><div class="svc-ic">🐄</div><div class="svc-nm">Multi-Species</div><div class="svc-desc">Formulas for cattle, poultry, sheep, swine and companion animals.</div></div>
+      <div class="svc"><div class="svc-ic">🏭</div><div class="svc-nm">GMP Facility</div><div class="svc-desc">Manufactured under Good Manufacturing Practice guidelines.</div></div>
+      <div class="svc"><div class="svc-ic">📦</div><div class="svc-nm">Flexible Packaging</div><div class="svc-desc">Multiple pack sizes for small farms to large commercial operations.</div></div>
+      <div class="svc"><div class="svc-ic">🤝</div><div class="svc-nm">Expert Support</div><div class="svc-desc">Veterinary consultants available to guide correct usage and dosage.</div></div>
+    </div>
+  </div>
+
+  <!-- Partnerships -->
+  <div class="sec sec-alt">
+    <div class="sec-lbl">Certified By</div>
+    <div class="sec-ttl">Our Certifications</div>
+    <div class="grid4">
+
+
+<div class="ptc"><img src="../vet_imges/S-ISO2018-01.svg" alt="FARMPLUS logo" class="ptc-img"><div class="ptc-desc">International farm supply chain covering 15+ markets globally.</div></div>
+<div class="ptc"><img src="../vet_imges/S-ISO2018-01.svg" alt="FARMPLUS logo" class="ptc-img"><div class="ptc-desc">International farm supply chain covering 15+ markets globally.</div></div>
+<div class="ptc"><img src="../vet_imges/S-ISO2018-01.svg" alt="FARMPLUS logo" class="ptc-img"><div class="ptc-desc">International farm supply chain covering 15+ markets globally.</div></div>
+<div class="ptc"><img src="../vet_imges/S-ISO2018-01.svg" alt="FARMPLUS logo" class="ptc-img"><div class="ptc-desc">International farm supply chain covering 15+ markets globally.</div></div>
+
+    </div>
+  </div>
+
+  <footer class="ftr"><div><div class="ftr-logo"><div style="width:9px;height:9px;background:var(--cpm);border-radius:50%"></div>VetGroup</div><div class="ftr-desc">A leading manufacturer of premium veterinary medicines trusted by professionals across 30+ countries.</div></div><div><div class="ftr-lbl">Questions? Feel free to contact us:</div><div class="ftr-row">✉ info@vetgroup.com</div><div class="ftr-row">📞 +90 212 555 0100</div><div class="ftr-row">📍 Istanbul, Turkey</div><div class="ftr-soc"><div class="soc-b">f</div><div class="soc-b">in</div><div class="soc-b">▶</div><div class="soc-b">📷</div></div></div></footer>
+  <div class="ftr-bar">© 2010 – 2025 VetGroup. All rights reserved.</div>
+</div>
+
+<!-- ══════════════════ PRODUCTS ══════════════════ -->
+<div class="page" id="page-products">
+  <div class="sec">
+    <div class="bc"><a onclick="goTo('home')">Home</a><span class="sep">›</span><span>Products</span></div>
+    <div class="sec-lbl">All Categories</div>
+    <div class="sec-ttl" style="margin-bottom:16px">Product Catalogue</div>
+    <div class="cat-filter" id="catFilter">
+      <button class="cf-btn on" onclick="setCat(this,'all')">All Products</button>
+      <button class="cf-btn" onclick="setCat(this,'compound-mix')">Compound Mix</button>
+      <button class="cf-btn" onclick="setCat(this,'liquid')">Liquid</button>
+      <button class="cf-btn" onclick="setCat(this,'powder')">Powder</button>
+    </div>
+    <div class="grid4" id="productGrid">
+      <div class="pc" data-cat="liquid" onclick="goToProduct('vita-liquid')"><div class="pc-top">Liquid</div><div class="pc-img"><img src="../vet_imges/ultra-lyte-fort-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">VitaLiquid Forte Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="liquid" onclick="goToProduct('hepato-care')"><div class="pc-top">Liquid</div><div class="pc-img"><img src="../vet_imges/b-complex-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Hepato Care Solution</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="liquid" onclick="goToProduct('electro-balance')"><div class="pc-top">Liquid</div><div class="pc-img"><img src="../vet_imges/ultra-lyte-fort-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Electro Balance Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="liquid" onclick="goToProduct('immuno-boost')"><div class="pc-top">Liquid</div><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Immuno Boost Oral</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="powder" onclick="goToProduct('growmax')"><div class="pc-top">Powder</div><div class="pc-img"><img src="../vet_imges/b-complex-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">GrowMax Powder Pro</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="powder" onclick="goToProduct('calciphos')"><div class="pc-top">Powder</div><div class="pc-img"><img src="../vet_imges/ultra-lyte-fort-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">CalciPhos Mineral Blend</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="powder" onclick="goToProduct('probio')"><div class="pc-top">Powder</div><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">ProBio Active Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="powder"><div class="pc-top">Powder</div><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Herbal Digest Mix</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="compound-mix"><div class="pc-top">Compound Mix</div><div class="pc-img"><img src="../vet_imges/b-complex-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">MultiVit Compound A</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="compound-mix"><div class="pc-top">Compound Mix</div><div class="pc-img"><img src="../vet_imges/ultra-lyte-fort-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">AminoFlex Blend Pro</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="compound-mix"><div class="pc-top">Compound Mix</div><div class="pc-img"><img src="../vet_imges/b-complex-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">TraceMix Ultra</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      <div class="pc" data-cat="liquid"><div class="pc-top">Liquid</div><div class="pc-img"><img src="../vet_imges/ultra-lyte-fort-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">OralCare Liquid Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+    </div>
+  </div>
+  <footer class="ftr"><div><div class="ftr-logo"><div style="width:9px;height:9px;background:var(--cpm);border-radius:50%"></div>VetGroup</div><div class="ftr-desc">Premium veterinary medicines trusted worldwide.</div></div><div><div class="ftr-lbl">Questions? Contact us:</div><div class="ftr-row">✉ info@vetgroup.com</div><div class="ftr-row">📞 +90 212 555 0100</div></div></footer>
+  <div class="ftr-bar">© 2010 – 2025 VetGroup. All rights reserved.</div>
+</div>
+
+<!-- ══════════════════ PRODUCT DETAIL ══════════════════ -->
+<div class="page" id="page-product">
+  <div class="sec">
+    <div class="bc"><a onclick="goTo('home')">Home</a><span class="sep">›</span><a onclick="goTo('products')">Products</a><span class="sep">›</span><a onclick="goTo('products')">Liquid</a><span class="sep">›</span><span>VitaLiquid Forte Plus</span></div>
+    <div class="pd-layout">
+      <div class="pd-img-area"><img src="../vet_imges/ultra-lyte-fort-mockup-EN-4000-4000-px-scaled.png" alt=""></div>
+      <div class="pd-card">
+        <span class="pill">Liquid</span>
+        <div class="pd-name">VitaLiquid Forte Plus</div>
+        <div class="pd-comp">A premium multi-vitamin liquid supplement formulated for poultry and livestock. Supports immune function, growth performance, and reproductive efficiency.</div>
+        <hr class="pd-divider"/>
+        <table class="pd-tbl">
+          <tr><td>Form</td><td>Oral Liquid Solution</td></tr>
+          <tr><td>Concentration</td><td>500 ml / 1L / 5L</td></tr>
+          <tr><td>Target Species</td><td>Poultry, Cattle, Sheep</td></tr>
+          <tr><td>Dosage</td><td>1 ml per 2L drinking water</td></tr>
+          <tr><td>Shelf Life</td><td>24 months</td></tr>
+          <tr><td>Storage</td><td>Cool, dry place below 25°C</td></tr>
+        </table>
+        <hr class="pd-divider"/>
+        <button class="btn-p" style="width:100%;justify-content:center;margin-bottom:12px;" onclick="goToContactPrefill()">✉ Contact Us for This Product</button>
+        <div class="trust">
+          <span class="trust-b">✓ Licensed</span>
+          <span class="trust-b">🔬 Lab-Tested</span>
+          <span class="trust-b">🐾 Vet-Approved</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animal Usage -->
+    <div class="sec-lbl" style="margin-top:12px">Usage by Species</div>
+    <div class="sec-ttl" style="margin-bottom:16px">Animal Applications</div>
+    <div class="ac-block">
+      <div class="ac-img">🐔</div>
+      <div><div class="ac-nm">Poultry</div><ul class="ac-blist"><li>Improves feed conversion ratio and growth rate</li><li>Supports egg production and shell quality</li><li>Boosts immune response during stress periods</li><li>Reduces mortality rate in broilers</li></ul></div>
+    </div>
+    <div class="ac-block">
+      <div class="ac-img">🐄</div>
+      <div><div class="ac-nm">Cattle</div><ul class="ac-blist"><li>Enhances milk yield and quality in dairy cows</li><li>Supports reproductive performance and fertility</li><li>Maintains bone density and muscle strength</li></ul></div>
+    </div>
+    <div class="ac-block">
+      <div class="ac-img">🐑</div>
+      <div><div class="ac-nm">Sheep</div><ul class="ac-blist"><li>Promotes healthy wool growth and quality</li><li>Supports lamb development and vitality</li><li>Boosts immunity during pregnancy</li></ul></div>
+    </div>
+
+    <!-- Why Choose This Product -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;align-items:center;">
+      <div>
+        <div class="sec-lbl">Key Benefits</div>
+        <div class="sec-ttl" style="margin-bottom:14px">Why Choose VitaLiquid Forte Plus?</div>
+        <p style="font-size:13px;color:var(--ctm);line-height:1.7;margin-bottom:10px;">Developed with leading veterinary nutritionists, VitaLiquid Forte Plus combines essential vitamins A, D3, E, and B-complex with trace minerals to cover the full spectrum of nutritional needs.</p>
+        <p style="font-size:13px;color:var(--ctm);line-height:1.7;">Our proprietary micro-encapsulation technology ensures maximum bioavailability and stability throughout the product's shelf life — even in challenging water conditions.</p>
+      </div>
+      <div style="border:1px solid var(--cb);border-radius:var(--rxl);background:var(--bgs);height:200px;display:flex;align-items:center;justify-content:center;font-size:64px;">🌿</div>
+    </div>
+
+    <!-- Benefit Cards -->
+    <div class="grid3" style="margin-top:20px">
+      <div class="bfc"><div class="bfc-ic">💊</div><div class="bfc-ttl">Full Vitamin Spectrum</div><div class="bfc-desc">All essential vitamins A, D3, E, K3 and complete B-complex in one solution.</div></div>
+      <div class="bfc"><div class="bfc-ic">🔬</div><div class="bfc-ttl">High Bioavailability</div><div class="bfc-desc">Micro-encapsulated active ingredients for superior absorption rate.</div></div>
+      <div class="bfc"><div class="bfc-ic">🌡️</div><div class="bfc-ttl">Heat Stable Formula</div><div class="bfc-desc">Maintains potency even when mixed in medicated drinking water.</div></div>
+    </div>
+
+    <!-- Related Products -->
+    <div style="margin-top:32px">
+      <div class="sec-lbl">More Products</div>
+      <div class="sw-ctrl"><div class="sec-ttl" style="margin-bottom:0">Related Products</div><div class="arr-wrap"><button class="arrBtn">‹</button><button class="arrBtn">›</button></div></div>
+      <div class="grid4">
+        <div class="pc" onclick="goToProduct('hepato-care')"><div class="pc-top">Liquid</div><div class="pc-img"><img src="../vet_imges/AMINO-16-1000G-EN-Mock-up-4000px-4000px-scaled.png" alt=""></div><div class="pc-nm">Hepato Care Solution</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" onclick="goToProduct('immuno-boost')"><div class="pc-top">Liquid</div><div class="pc-img"><img src="../vet_imges/b-complex-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">Immuno Boost Oral</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc" onclick="goToProduct('growmax')"><div class="pc-top">Powder</div><div class="pc-img"><img src="../vet_imges/ultra-lyte-fort-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">GrowMax Powder Pro</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+        <div class="pc"><div class="pc-top">Powder</div><div class="pc-img"><img src="../vet_imges/ultra-zest-mockup-EN-4000-4000-px-scaled.png" alt=""></div><div class="pc-nm">ProBio Active Plus</div><div class="pc-rm">READ MORE</div><div class="pc-fav" onclick="toggleFav(event)">🤍</div></div>
+      </div>
+    </div>
+
+    <!-- Partnerships at bottom -->
+    <div style="margin-top:32px">
+      <div class="sec-lbl">Trusted By</div>
+      <div class="sec-ttl">Our Partnerships</div>
+      <div class="grid4">
+        <div class="ptc"><img src="../vet_imges/S-ISO2018-01.svg" alt="FARMPLUS logo" class="ptc-img"><div class="ptc-desc">International farm supply chain covering 15+ markets globally.</div></div>
+        <div class="ptc"><img src="../vet_imges/S-ISO2018-01.svg" alt="FARMPLUS logo" class="ptc-img"><div class="ptc-desc">International farm supply chain covering 15+ markets globally.</div></div>
+        <div class="ptc"><img src="../vet_imges/S-ISO2018-01.svg" alt="FARMPLUS logo" class="ptc-img"><div class="ptc-desc">International farm supply chain covering 15+ markets globally.</div></div>
+        <div class="ptc"><img src="../vet_imges/S-ISO2018-01.svg" alt="FARMPLUS logo" class="ptc-img"><div class="ptc-desc">International farm supply chain covering 15+ markets globally.</div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="ftr"><div><div class="ftr-logo"><div style="width:9px;height:9px;background:var(--cpm);border-radius:50%"></div>VetGroup</div><div class="ftr-desc">Premium veterinary medicines trusted worldwide.</div></div><div><div class="ftr-lbl">Questions? Contact us:</div><div class="ftr-row">✉ info@vetgroup.com</div><div class="ftr-row">📞 +90 212 555 0100</div></div></footer>
+  <div class="ftr-bar">© 2010 – 2025 VetGroup. All rights reserved.</div>
+</div>
+
+<!-- ══════════════════ ABOUT ══════════════════ -->
+<div class="page" id="page-about">
+  <div class="sec">
+    <div class="bc"><a onclick="goTo('home')">Home</a><span class="sep">›</span><span>About Us</span></div>
+    <div class="about-layout">
+      <div>
+        <div class="sec-lbl">Our Story</div>
+        <div class="about-ttl">Who We Are</div>
+        <p class="about-body">VetGroup was founded in 2010 with a single mission: to manufacture world-class veterinary medicines that improve animal health, farm productivity, and food safety standards across the globe.</p>
+        <p class="about-body">Our state-of-the-art GMP-certified production facility in Istanbul operates under strict international quality standards. We invest heavily in research and development to continuously improve our formulations.</p>
+        <p class="about-body">From our headquarters, we serve distributors, veterinarians, and farmers in over 30 countries — providing not just products, but a complete technical support ecosystem.</p>
+        <div style="display:flex;gap:10px;margin-top:16px;">
+          <button class="btn-p" onclick="goTo('contact')">Get in Touch</button>
+          <button class="btn-o" onclick="goTo('products')">Our Products</button>
+        </div>
+      </div>
+      <div class="about-logo-area">VetGroup<br><span style="font-size:13px;font-weight:400;color:var(--ctm)">Since 2010</span></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="sec sec-alt">
+    <div class="sec-lbl" style="text-align:center">By the Numbers</div>
+    <div class="sec-ttl" style="text-align:center;margin-bottom:22px">VetGroup at a Glance</div>
+    <div class="grid3">
+      <div class="stat-card"><div class="stat-num">250+</div><div class="stat-lbl">Employees Worldwide</div></div>
+      <div class="stat-card"><div class="stat-num">30+</div><div class="stat-lbl">Countries Served</div></div>
+      <div class="stat-card"><div class="stat-num">12,000 m²</div><div class="stat-lbl">Production Facility</div></div>
+    </div>
+    <div class="grid3" style="margin-top:12px">
+      <div class="stat-card"><div class="stat-num">80+</div><div class="stat-lbl">Products in Catalogue</div></div>
+      <div class="stat-card"><div class="stat-num">15</div><div class="stat-lbl">Years of Experience</div></div>
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-lbl">International Certifications</div></div>
+    </div>
+  </div>
+
+  <!-- Why Choose Us (reused) -->
+  <div class="sec">
+    <div class="wc-header"><div class="sec-lbl" style="text-align:center">Our Standards</div><div class="sec-ttl" style="text-align:center;margin-bottom:0">What Sets Us Apart</div></div>
+    <div class="grid3" style="margin-top:20px">
+      <div class="svc"><div class="svc-ic">🏆</div><div class="svc-nm">ISO 9001 Certified</div><div class="svc-desc">Quality management systems certified to the highest international standard.</div></div>
+      <div class="svc"><div class="svc-ic">🔬</div><div class="svc-nm">In-House R&D Lab</div><div class="svc-desc">Dedicated research lab with specialist veterinary nutritionists on staff.</div></div>
+      <div class="svc"><div class="svc-ic">🌱</div><div class="svc-nm">Sustainable Practices</div><div class="svc-desc">Eco-conscious manufacturing with minimal environmental footprint.</div></div>
+    </div>
+  </div>
+
+  <!-- Partners -->
+  <div class="sec sec-alt">
+    <div class="sec-lbl">Partners</div>
+    <div class="sec-ttl">Our Global Partners</div>
+    <div class="grid4">
+      <div class="ptc"><div class="ptc-logo">AGRI CORP</div><div class="ptc-desc">Eastern European agricultural distribution leader.</div></div>
+      <div class="ptc"><div class="ptc-logo">VET DIST</div><div class="ptc-desc">National veterinary distribution network.</div></div>
+      <div class="ptc"><div class="ptc-logo">BIOMED</div><div class="ptc-desc">Research and formulation collaboration partner.</div></div>
+      <div class="ptc"><div class="ptc-logo">FARMPLUS</div><div class="ptc-desc">International farm supply across 15+ markets.</div></div>
+    </div>
+  </div>
+
+  <footer class="ftr"><div><div class="ftr-logo"><div style="width:9px;height:9px;background:var(--cpm);border-radius:50%"></div>VetGroup</div><div class="ftr-desc">Premium veterinary medicines trusted worldwide.</div></div><div><div class="ftr-lbl">Questions? Contact us:</div><div class="ftr-row">✉ info@vetgroup.com</div><div class="ftr-row">📞 +90 212 555 0100</div></div></footer>
+  <div class="ftr-bar">© 2010 – 2025 VetGroup. All rights reserved.</div>
+</div>
+
+<!-- ══════════════════ CONTACT ══════════════════ -->
+<div class="page" id="page-contact">
+  <div class="sec">
+    <div class="bc"><a onclick="goTo('home')">Home</a><span class="sep">›</span><span>Contact</span></div>
+    <div class="sec-lbl">Get in Touch</div>
+    <div class="sec-ttl" style="margin-bottom:22px">Contact Us</div>
+    <div class="contact-layout">
+      <!-- Info side -->
+      <div>
+        <div class="info-item"><div class="info-ic">📍</div><div><div class="info-lbl">Address</div><div class="info-val">Organize Sanayi Bölgesi, Istanbul, Turkey</div></div></div>
+        <div class="info-item"><div class="info-ic">📞</div><div><div class="info-lbl">Phone</div><div class="info-val">+90 212 555 0100</div></div></div>
+        <div class="info-item"><div class="info-ic">✉</div><div><div class="info-lbl">Email</div><div class="info-val">info@vetgroup.com</div></div></div>
+        <div class="info-item"><div class="info-ic">🕐</div><div><div class="info-lbl">Business Hours</div><div class="info-val">Mon–Fri: 08:00 – 18:00</div></div></div>
+        <div class="ftr-soc" style="margin-top:6px;"><div class="soc-b" style="background:var(--bgs);border-color:var(--cb);color:var(--ctm)">f</div><div class="soc-b" style="background:var(--bgs);border-color:var(--cb);color:var(--ctm)">in</div><div class="soc-b" style="background:var(--bgs);border-color:var(--cb);color:var(--ctm)">▶</div><div class="soc-b" style="background:var(--bgs);border-color:var(--cb);color:var(--ctm)">📷</div></div>
+        <div class="map-ph">📍 Google Maps — Istanbul, Turkey</div>
+      </div>
+
+      <!-- Form side -->
+      <div>
+        <div style="font-size:15px;font-weight:600;margin-bottom:18px;">Send an Inquiry</div>
+
+        <!-- Prefill banner (shown when coming from product/favorites) -->
+        <div id="prefillBanner" style="display:none;background:var(--cpl);border:1px solid var(--cpm);border-radius:var(--rm);padding:12px 14px;margin-bottom:16px;">
+          <div style="font-size:11px;font-weight:600;color:var(--cp);margin-bottom:8px;">Products of Interest:</div>
+          <div id="prefillProducts"></div>
+        </div>
+
+        <div class="frm-success" id="frmSuccess">✅ Your inquiry has been sent! We'll be in touch within 24 hours.</div>
+
+        <div class="frm-row">
+          <div class="frm-field"><label>Full Name *</label><input type="text" placeholder="Your full name" id="f-name"/></div>
+          <div class="frm-field"><label>Email *</label><input type="email" placeholder="your@email.com" id="f-email"/></div>
+        </div>
+        <div class="frm-row">
+          <div class="frm-field"><label>Phone</label><input type="tel" placeholder="+1 234 567 890" id="f-phone"/></div>
+          <div class="frm-field"><label>Country</label><input type="text" placeholder="Your country" id="f-country"/></div>
+        </div>
+        <div class="frm-field"><label>Product of Interest</label><input type="text" placeholder="Product name (optional)" id="f-product"/></div>
+        <div class="frm-field"><label>Message / Special Requirements *</label><textarea placeholder="Describe your requirements, quantities, or any questions..." id="f-msg"></textarea></div>
+        <button class="btn-p" style="width:100%;justify-content:center;height:44px;font-size:13px;" onclick="submitForm()">✉ Send Request</button>
+      </div>
+    </div>
+  </div>
+  <footer class="ftr"><div><div class="ftr-logo"><div style="width:9px;height:9px;background:var(--cpm);border-radius:50%"></div>VetGroup</div><div class="ftr-desc">Premium veterinary medicines trusted worldwide.</div></div><div><div class="ftr-lbl">Questions? Contact us:</div><div class="ftr-row">✉ info@vetgroup.com</div><div class="ftr-row">📞 +90 212 555 0100</div></div></footer>
+  <div class="ftr-bar">© 2010 – 2025 VetGroup. All rights reserved.</div>
+</div>
+
+<!-- FAVORITES DRAWER -->
+<div class="dback" id="dback" onclick="closeDrawer()"></div>
+<div class="drw" id="drw">
+  <div class="drw-hd">
+    <span class="drw-ttl">My Favorites <span style="background:var(--cp);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:var(--rp);margin-left:5px;" id="drwCount">2</span></span>
+    <button class="drw-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drw-body">
+    <div class="fv-item"><div class="fv-th">🧴</div><div class="fv-inf"><div class="fv-pn">VitaLiquid Forte Plus</div><div class="fv-cat">Liquid</div></div><div class="qty"><button class="qb">−</button><span class="qn">1</span><button class="qb">+</button></div><button class="frm-btn">✕</button></div>
+    <div class="fv-item"><div class="fv-th">🥛</div><div class="fv-inf"><div class="fv-pn">GrowMax Powder Pro</div><div class="fv-cat">Powder</div></div><div class="qty"><button class="qb">−</button><span class="qn">2</span><button class="qb">+</button></div><button class="frm-btn">✕</button></div>
+  </div>
+  <div class="drw-ft">
+    <div class="drw-sum"><span>2 products selected</span><span>Ready to inquire</span></div>
+    <button class="btn-p" style="width:100%;justify-content:center;height:44px;" onclick="goToContactFromFav()">✉ Send Request via Contact Page →</button>
+    <button class="btn-o" style="width:100%;justify-content:center;" onclick="closeDrawer()">Continue Browsing</button>
+  </div>
+</div>
+
+<script>
+let currentPage = 'home';
+
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const nl = document.getElementById('nl-' + page);
+  if(nl) nl.classList.add('active');
+  currentPage = page;
+  window.scrollTo(0,0);
+  document.getElementById('mainNav').scrollIntoView();
+}
+
+function goToProduct(id) {
+  goTo('product');
+}
+
+function filterProducts(cat) {
+  goTo('products');
+  setTimeout(() => {
+    document.querySelectorAll('.cf-btn').forEach(b => b.classList.remove('on'));
+    const btn = document.querySelector(`.cf-btn[onclick*="${cat}"]`);
+    if(btn) btn.classList.add('on');
+    document.querySelectorAll('#productGrid .pc').forEach(c => {
+      c.style.display = (c.dataset.cat === cat) ? 'block' : 'none';
+    });
+  }, 50);
+}
+
+function setCat(btn, cat) {
+  document.querySelectorAll('.cf-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#productGrid .pc').forEach(c => {
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+function toggleFav(e) {
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  btn.textContent = btn.textContent === '🤍' ? '❤️' : '🤍';
+}
+
+function filterFeaturedSubCat(el, section) {
+  // Remove active from all sub-cats in this section
+  el.closest('.sub-cats').querySelectorAll('.sub-cat').forEach(s => s.classList.remove('active'));
+  // Add active to clicked
+  el.classList.add('active');
+  const subcat = el.textContent;
+  const gridId = section + '-grid';
+  const grid = document.getElementById(gridId);
+  grid.querySelectorAll('.pc').forEach(pc => {
+    pc.style.display = pc.dataset.subcat === subcat ? 'block' : 'none';
+  });
+  // Hide dots
+  const dots = grid.parentElement.nextElementSibling;
+  if (dots && dots.classList.contains('dots')) dots.style.display = 'none';
+  // reset slide
+  grid.style.transform = 'translateX(0)';
+  grid.dataset.slide = 0;
+  const dotsEl = document.getElementById(section + '-dots');
+  dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === 0));
+}
+
+function showAllFeatured(section) {
+  const grid = document.getElementById(section + '-grid');
+  grid.querySelectorAll('.pc').forEach(pc => pc.style.display = 'block');
+  const subcats = grid.previousElementSibling.querySelectorAll('.sub-cat');
+  subcats.forEach(s => s.classList.remove('active'));
+  subcats[0].classList.add('active');
+  const dots = grid.parentElement.nextElementSibling;
+  if (dots && dots.classList.contains('dots')) dots.style.display = 'flex';
+  // reset slide
+  grid.style.transform = 'translateX(0)';
+  grid.dataset.slide = 0;
+  const dotsEl = document.getElementById(section + '-dots');
+  dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === 0));
+}
+
+function filterFeaturedBySub(section, subcat) {
+  goTo('home');
+  setTimeout(() => {
+    const grid = document.getElementById(section + '-grid');
+    grid.querySelectorAll('.pc').forEach(pc => {
+      pc.style.display = pc.dataset.subcat === subcat ? 'block' : 'none';
+    });
+    const dots = grid.parentElement.nextElementSibling;
+    if (dots.classList.contains('dots')) dots.style.display = 'none';
+    const subcats = grid.previousElementSibling.querySelectorAll('.sub-cat');
+    subcats.forEach(s => s.classList.remove('active'));
+    const matching = Array.from(subcats).find(s => s.textContent === subcat);
+    if (matching) matching.classList.add('active');
+    // reset slide
+    grid.style.transform = 'translateX(0)';
+    grid.dataset.slide = 0;
+    const dotsEl = document.getElementById(section + '-dots');
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === 0));
+  }, 50);
+}
+
+function slideFeatured(section, direction) {
+  const grid = document.getElementById(section + '-grid');
+  let current = parseInt(grid.dataset.slide || 0);
+  const maxSlide = section === 'powder' ? 3 : 4; // powder has 4 dots, liquid 5
+  current = (current + direction + (maxSlide + 1)) % (maxSlide + 1);
+  grid.dataset.slide = current;
+  grid.style.transform = `translateX(-${current * (100 / (maxSlide + 1))}%)`;
+  // Update dots
+  const dotsEl = document.getElementById(section + '-dots');
+  dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === current));
+}
+
+function setSlideFeatured(section, slide) {
+  const grid = document.getElementById(section + '-grid');
+  grid.dataset.slide = slide;
+  const maxSlide = section === 'powder' ? 3 : 4;
+  grid.style.transform = `translateX(-${slide * (100 / (maxSlide + 1))}%)`;
+}
+
+// Search
+document.getElementById('searchBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const sov = document.getElementById('sov');
+  sov.classList.toggle('open');
+  if(sov.classList.contains('open')) setTimeout(() => document.getElementById('sovInput').focus(), 40);
+});
+document.addEventListener('click', (e) => {
+  if(!document.getElementById('sov').contains(e.target) && e.target !== document.getElementById('searchBtn'))
+    document.getElementById('sov').classList.remove('open');
+});
+function fillSearch(t) { document.getElementById('sovInput').value = t; }
+
+// Favorites drawer
+document.getElementById('favBtn').addEventListener('click', () => {
+  document.getElementById('drw').classList.add('open');
+  document.getElementById('dback').classList.add('open');
+});
+function closeDrawer() {
+  document.getElementById('drw').classList.remove('open');
+  document.getElementById('dback').classList.remove('open');
+}
+
+// Qty controls
+document.querySelectorAll('.qb').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const qn = this.closest('.qty').querySelector('.qn');
+    let n = parseInt(qn.textContent);
+    n = this.textContent === '+' ? n+1 : Math.max(1, n-1);
+    qn.textContent = n;
+  });
+});
+
+// Hero dots
+document.querySelectorAll('.hero-hdot').forEach((d,i,all) => {
+  d.addEventListener('click', () => { all.forEach(x => x.classList.remove('on')); d.classList.add('on'); });
+});
+document.querySelectorAll('.dots').forEach(dots => {
+  const section = dots.id.replace('-dots', '');
+  dots.querySelectorAll('.dot').forEach((d,i) => {
+    d.addEventListener('click', () => {
+      setSlideFeatured(section, i);
+      dots.querySelectorAll('.dot').forEach(x => x.classList.remove('on'));
+      d.classList.add('on');
+    });
+  });
+});
+
+// Navigate to contact with prefill
+function goToContactPrefill() {
+  goTo('contact');
+  document.getElementById('prefillBanner').style.display = 'block';
+  document.getElementById('prefillProducts').innerHTML = `
+    <div class="frm-product-pill"><span>🧴 VitaLiquid Forte Plus</span><span style="font-size:11px;color:var(--cp)">Qty: 1</span></div>`;
+  document.getElementById('f-product').value = 'VitaLiquid Forte Plus';
+}
+
+function goToContactFromFav() {
+  closeDrawer();
+  goTo('contact');
+  document.getElementById('prefillBanner').style.display = 'block';
+  document.getElementById('prefillProducts').innerHTML = `
+    <div class="frm-product-pill"><span>🧴 VitaLiquid Forte Plus</span><span style="font-size:11px;color:var(--cp)">Qty: 1</span></div>
+    <div class="frm-product-pill"><span>🥛 GrowMax Powder Pro</span><span style="font-size:11px;color:var(--cp)">Qty: 2</span></div>`;
+  document.getElementById('f-product').value = 'VitaLiquid Forte Plus, GrowMax Powder Pro';
+}
+
+function submitForm() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const msg = document.getElementById('f-msg').value.trim();
+  if(!name || !email || !msg) {
+    ['f-name','f-email','f-msg'].forEach(id => {
+      const el = document.getElementById(id);
+      if(!el.value.trim()) el.style.borderColor = '#E53E3E';
+      else el.style.borderColor = '';
+    });
+    return;
+  }
+  document.getElementById('frmSuccess').classList.add('show');
+  ['f-name','f-email','f-phone','f-country','f-product','f-msg'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('prefillBanner').style.display = 'none';
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') { document.getElementById('sov').classList.remove('open'); closeDrawer(); }
+});
+</script>
